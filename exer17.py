@@ -4,12 +4,12 @@
 import requests
 from bs4 import BeautifulSoup
 
-url = 'https://www.reddit.com/'
-ttl_lst = []
+base_url = 'http://www.nytimes.com'
+r = requests.get(base_url)
+soup = BeautifulSoup(r.text)
 
-soup = BeautifulSoup(requests.get(url).text, features="html5lib")
-title = soup.find_all('h2', {'class': 'story-heading'})
-for row in title:
-     ttl_lst.append(row.text)
-
-print ttl_lst
+for story_heading in soup.find_all(class_="story-heading"):
+    if story_heading.a:
+        data = story_heading.a.text.replace("\n", " ").strip())
+    else:
+        print(story_heading.contents[0].strip())
